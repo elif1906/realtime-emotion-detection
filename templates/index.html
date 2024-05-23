@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Emotion Detection</title>
+</head>
+<body>
+    <h1>Emotion Detection</h1>
+    <div>
+        <img id="video" src="{{ url_for('video_feed') }}" width="50%">
+    </div>
+    <div>
+        <button onclick="startCamera()">Start Camera</button>
+        <button onclick="stopCamera()">Stop Camera</button>
+        <button onclick="startAudio()">Start Audio</button>
+        <button onclick="stopAudio()">Stop Audio</button>
+    </div>
+    <div>
+        <h2>Face Emotion Results</h2>
+        <p id="face-emotion-results"></p>
+    </div>
+    <div>
+        <h2>Audio Emotion Results</h2>
+        <p id="audio-emotion-results"></p>
+    </div>
+    <script>
+        function startCamera() {
+            fetch('/start_camera')
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                });
+        }
+
+        function stopCamera() {
+            fetch('/stop_camera')
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                });
+        }
+
+        function startAudio() {
+            fetch('/start_audio')
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                });
+        }
+
+        function stopAudio() {
+            fetch('/stop_audio')
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    updateAudioEmotionResults();
+                });
+        }
+
+        function updateFaceEmotionResults() {
+            fetch('/video_feed')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('face-emotion-results').textContent = data;
+                });
+        }
+
+        function updateAudioEmotionResults() {
+            fetch('/audio_results')
+                .then(response => response.json())
+                .then(data => {
+                    let emotionResults = '';
+                    for (let emotion in data) {
+                        emotionResults += `${emotion}: ${(data[emotion] * 100).toFixed(2)}%<br>`;
+                    }
+                    document.getElementById('audio-emotion-results').innerHTML = emotionResults;
+                });
+        }
+    </script>
+</body>
+</html>
