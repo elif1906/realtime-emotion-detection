@@ -5,7 +5,7 @@
 This project aims to develop a system for analyzing real-time facial expressions and voices. The system detects emotions as a result of analyzing facial expressions and sounds. 
 This project was developed as a web project and allows users to detect their emotions by analyzing their facial expressions and voices.
 ## Introduction
-used dataset for-2023 and ravdess
+used dataset for-2023 and Emotion English DistilRoBERTa-base
 **seven emotions** - angry, disguste, fear, happy, neutral, sad and surprised.
 
 ## Result output 
