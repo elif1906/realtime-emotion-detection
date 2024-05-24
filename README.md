@@ -22,13 +22,13 @@ cd realtime-emotion-detection
 For Windows;
 ```bash
 ai_project\Scripts\activate
-python app.py
+
 ```
 For Mac;
 
 ```bash
 source ai_project/bin/activate
-python app.py
+
 ```
 * Third, run app.py file
 ```bash
