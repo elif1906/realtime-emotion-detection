@@ -12,6 +12,7 @@ app = Flask(__name__, static_folder="./static")
 is_camera_active = False
 audio_thread = None  
 face_emotions = None
+
  
 
 # Camera stream generator function
@@ -34,12 +35,13 @@ def gen_frames():
                 yield (b'--frame\r\n'
                        b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
             else:
+                face_emotions = None  # Kamera durdurulduğunda sıfırlanmalı
                 img = cv2.imread('camera.png')  # Load placeholder image
                 ret, buffer = cv2.imencode('.png', img)
                 frame = buffer.tobytes()
                 yield (b'--frame\r\n'
                        b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
+                
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -66,7 +68,6 @@ def start_audio():
     if audio_thread is None or not audio_thread.is_alive():
         audio_thread = threading.Thread(target=record_and_analyze)
         audio_thread.start()
-       
         return "Audio analysis started"
     else:
         return "Audio analysis already running"
@@ -77,7 +78,7 @@ def stop_audio():
     if audio_thread and audio_thread.is_alive():
         stop_recording_thread()
         audio_thread.join()
-        
+        audio_emotions = {}  
         return "Audio analysis stopped"
     else:
         return "No audio analysis running"

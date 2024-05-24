@@ -195,18 +195,18 @@
         }
 
         function updateAudioEmotionResults() {
-        fetch('/audio_results')
-            .then(response => response.json())
-            .then(data => {
-                let emotionResults = '';
-                for (let emotion in data) {
-                    emotionResults += `${emotion.charAt(0).toUpperCase() + emotion.slice(1)}: ${(data[emotion] * 100).toFixed(2)}%<br>`;
-                }
-                document.getElementById('audio-emotion-results').innerHTML = emotionResults;
-            })
-            .catch(error => {
-                console.error('Error fetching audio emotions:', error);
-            });
+            fetch('/audio_results')
+                .then(response => response.json())
+                .then(data => {
+                    let emotionResults = '';
+                    for (let emotion in data) {
+                        emotionResults += `${emotion.charAt(0).toUpperCase() + emotion.slice(1)}: ${(data[emotion] * 100).toFixed(2)}%<br>`;
+                    }
+                    document.getElementById('audio-emotion-results').innerHTML = emotionResults;
+                })
+                .catch(error => {
+                    console.error('Error fetching audio emotions:', error); // console.error kullanılmalı
+                });
         }
          
     </script>

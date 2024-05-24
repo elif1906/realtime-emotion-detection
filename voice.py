@@ -44,14 +44,15 @@ def transcribe_audio(audio_file):
                                  timeout=10)
         response.raise_for_status()
         return response.json()["text"]
-    except requests.exceptions.RequestException as e:
+    except Exception as e:
         print(f"Error transcribing audio: {e}")
         return ""
 
 def record_and_analyze():
     global record_thread, stop_recording
     global audio_emotions, audio_process_completed
-   
+    
+    stop_recording = False 
 
     # Record audio from microphone
     CHUNK = 1024
