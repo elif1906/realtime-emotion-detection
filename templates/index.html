@@ -1,37 +1,159 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Emotion Detection</title>
+    <style>
+       
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-right: 5px; 
+        }
+
+        .controls {
+            margin-top: 10px;
+        }
+
+        .controls button {
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .controls button:hover {
+            background-color: #0056b3;
+        }
+
+        .emotion-results {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .emotion-results h2 {
+            margin: 0 0 10px 0;
+        }
+
+        .emotion-table {
+            display: grid;
+            grid-template-columns: 1fr 1fr 3fr;
+            grid-gap: 5px;
+        }
+
+        progress {
+            width: 100%;
+            height: 20px;
+        }
+
+        
+    </style>
 </head>
+
 <body>
-    <h1>Emotion Detection</h1>
-    <div>
-        <img id="video" src="{{ url_for('video_feed') }}" width="50%">
+    <div class="container">     
+        <div class="video-section">
+            <img id="video" src="{{ url_for('video_feed') }}" width="70%" alt="Video Feed">
+            <div class="controls">
+                <button onclick="startCamera()">Start Camera</button>
+                <button onclick="stopCamera()">Stop Camera</button>
+                <button onclick="startAudio()">Start Audio</button>
+                <button onclick="stopAudio()">Stop Audio</button>
+            </div>
+        </div>
+        <div class="emotion-results">
+            <div>
+                <h2>Face Emotion Results</h2>
+                <div class="emotion-table">
+                    <span>Angry:</span>
+                    <span id="angry-percent">0%</span>
+                    <progress id="angry" max="100" value="0"></progress>
+                    <span>Disgust:</span>
+                    <span id="disgust-percent">0%</span>
+                    <progress id="disgust" max="100" value="0"></progress>
+                    <span>Fear:</span>
+                    <span id="fear-percent">0%</span>
+                    <progress id="fear" max="100" value="0"></progress>
+                    <span>Happy:</span>
+                    <span id="happy-percent">0%</span>
+                    <progress id="happy" max="100" value="0"></progress>
+                    <span>Neutral:</span>
+                    <span id="neutral-percent">0%</span>
+                    <progress id="neutral" max="100" value="0"></progress>
+                    <span>Sad:</span>
+                    <span id="sad-percent">0%</span>
+                    <progress id="sad" max="100" value="0"></progress>
+                    <span>Surprise:</span>
+                    <span id="surprise-percent">0%</span>
+                    <progress id="surprise" max="100" value="0"></progress>
+                </div>
+            </div>
+            <div>
+                <h2>Audio Emotion Results</h2>
+                <p id="audio-emotion-results">No data yet</p>
+            </div>
+        </div>
     </div>
-    <div>
-        <button onclick="startCamera()">Start Camera</button>
-        <button onclick="stopCamera()">Stop Camera</button>
-        <button onclick="startAudio()">Start Audio</button>
-        <button onclick="stopAudio()">Stop Audio</button>
-    </div>
-    <div>
-        <h2>Face Emotion Results</h2>
-        <p id="face-emotion-results"></p>
-    </div>
-    <div>
-        <h2>Audio Emotion Results</h2>
-        <p id="audio-emotion-results"></p>
-    </div>
+
+   
+
     <script>
+        var intervalId;
+
         function startCamera() {
             fetch('/start_camera')
                 .then(response => response.text())
                 .then(data => {
                     console.log(data);
                 });
+
+            intervalId = setInterval(() => {
+                fetch("/video_results")
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById("angry").value = data.angry * 100;
+                        document.getElementById("angry-percent").innerText = (data.angry * 100).toFixed(2) + "%";
+                        document.getElementById("disgust").value = data.disgust * 100;
+                        document.getElementById("disgust-percent").innerText = (data.disgust * 100).toFixed(2) + "%";
+                        document.getElementById("fear").value = data.fear * 100;
+                        document.getElementById("fear-percent").innerText = (data.fear * 100).toFixed(2) + "%";
+                        document.getElementById("happy").value = data.happy * 100;
+                        document.getElementById("happy-percent").innerText = (data.happy * 100).toFixed(2) + "%";
+                        document.getElementById("neutral").value = data.neutral * 100;
+                        document.getElementById("neutral-percent").innerText = (data.neutral * 100).toFixed(2) + "%";
+                        document.getElementById("sad").value = data.sad * 100;
+                        document.getElementById("sad-percent").innerText = (data.sad * 100).toFixed(2) + "%";
+                        document.getElementById("surprise").value = data.surprise * 100;
+                        document.getElementById("surprise-percent").innerText = (data.surprise * 100).toFixed(2) + "%";
+                    });
+            }, 1000);
         }
 
         function stopCamera() {
+            clearInterval(intervalId);
             fetch('/stop_camera')
                 .then(response => response.text())
                 .then(data => {
@@ -40,12 +162,28 @@
         }
 
         function startAudio() {
-            fetch('/start_audio')
-                .then(response => response.text())
-                .then(data => {
-                    console.log(data);
-                });
-        }
+        fetch('/start_audio')
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                document.getElementById('audio-emotion-results').innerHTML = 'Processing audio...';
+                checkAudioProcessStatus();
+            });
+    }
+    function checkAudioProcessStatus() {
+        fetch('/audio_process_status')
+            .then(response => response.json())
+            .then(data => {
+                if (data.is_completed) {
+                    updateAudioEmotionResults();
+                } else {
+                    setTimeout(checkAudioProcessStatus, 1000); 
+                }
+            })
+            .catch(error => {
+                console.error('Error checking audio process status:', error);
+            });
+    }
 
         function stopAudio() {
             fetch('/stop_audio')
@@ -56,25 +194,22 @@
                 });
         }
 
-        function updateFaceEmotionResults() {
-            fetch('/video_feed')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('face-emotion-results').textContent = data;
-                });
-        }
-
         function updateAudioEmotionResults() {
-            fetch('/audio_results')
-                .then(response => response.json())
-                .then(data => {
-                    let emotionResults = '';
-                    for (let emotion in data) {
-                        emotionResults += `${emotion}: ${(data[emotion] * 100).toFixed(2)}%<br>`;
-                    }
-                    document.getElementById('audio-emotion-results').innerHTML = emotionResults;
-                });
+        fetch('/audio_results')
+            .then(response => response.json())
+            .then(data => {
+                let emotionResults = '';
+                for (let emotion in data) {
+                    emotionResults += `${emotion.charAt(0).toUpperCase() + emotion.slice(1)}: ${(data[emotion] * 100).toFixed(2)}%<br>`;
+                }
+                document.getElementById('audio-emotion-results').innerHTML = emotionResults;
+            })
+            .catch(error => {
+                console.error('Error fetching audio emotions:', error);
+            });
         }
+         
     </script>
 </body>
+
 </html>

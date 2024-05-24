@@ -5,9 +5,13 @@ import wave
 import requests
 import threading
 
-
+# Global Değişkenler
 record_thread = None
 stop_recording = False
+audio_emotions = {} 
+
+audio_process_completed = threading.Event() 
+
 
 # Set device to GPU if available, otherwise use CPU
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
@@ -37,16 +41,18 @@ def transcribe_audio(audio_file):
         response = requests.post("https://api-inference.huggingface.co/models/facebook/wav2vec2-base-960h",
                                  headers=headers,
                                  data=audio_file.read(),
-                                 timeout=10)  # Zaman aşımı süresi ekledik
-        response.raise_for_status()  # İstek başarısız olursa hata fırlatacak
+                                 timeout=10)
+        response.raise_for_status()
         return response.json()["text"]
     except requests.exceptions.RequestException as e:
         print(f"Error transcribing audio: {e}")
-        return ""  # Veya uygun bir şekilde hata işleyin
+        return ""
 
 def record_and_analyze():
     global record_thread, stop_recording
-    global text_emotions
+    global audio_emotions, audio_process_completed
+   
+
     # Record audio from microphone
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
@@ -56,7 +62,7 @@ def record_and_analyze():
 
     p = pyaudio.PyAudio()
 
-    print("Recording... Press Ctrl+C to stop.")
+    
 
     stream = p.open(format=FORMAT,
                     channels=CHANNELS,
@@ -85,17 +91,21 @@ def record_and_analyze():
     wf.close()
 
     print("Transcribing audio...")
-    # Transcribe audio to text
     audio_file = open(WAVE_OUTPUT_FILE, "rb")
     transcription = transcribe_audio(audio_file)
     audio_file.close()
 
     print("Detecting emotions from text...")
-    # Detect emotions from text
-    text_emotions = detect_emotions_text(transcription)
-    display_emotions(text_emotions)
+    audio_emotions = detect_emotions_text(transcription)  
 
-    
+    print("Audio Emotions Received:", audio_emotions)
+
+    audio_process_completed.set()
+
+    stop_recording = True
+    audio_process_completed.clear()
+
+
 def stop_recording_thread():
     global stop_recording
     stop_recording = True

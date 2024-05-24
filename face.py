@@ -67,10 +67,40 @@ def detect_emotions(image):
         return face, class_probabilities
     return None, None
 
+def plot_results(face, class_probabilities):
+    if face is not None:
+        # Define colors for each emotion
+        colors = {
+            "angry": "red",
+            "disgust": "green",
+            "fear": "gray",
+            "happy": "yellow",
+            "neutral": "purple",
+            "sad": "blue",
+            "surprise": "orange"
+        }
+        palette = [colors[label] for label in class_probabilities.keys()]
+
+        # Create a figure with 2 subplots: one for the face image, one for the barplot
+        fig, axs = plt.subplots(1, 2, figsize=(10, 5))
+
+        # Display face on the left subplot
+        axs[0].imshow(face)
+        axs[0].axis('off')
+
+        # Create a barplot of the emotion probabilities on the right subplot
+        sns.barplot(ax=axs[1], y=list(class_probabilities.keys()),
+                    x=[prob * 100 for prob in class_probabilities.values()],
+                    palette=palette, orient='h')
+        axs[1].set_xlabel('Probability (%)')
+        axs[1].set_title('Emotion Probabilities')
+        axs[1].set_xlim([0, 100])
+
+        plt.savefig("static/results.png")
+
+
+
 def face_and_analyze():
-
-    global face_emotions
-
     
     cap = cv2.VideoCapture(0)
     while True:
@@ -84,43 +114,8 @@ def face_and_analyze():
         # Detect emotions
         face, class_probabilities = detect_emotions(image)
 
-
-        face_emotions = class_probabilities
-
-        print(face_emotions)
-
-
-        if face is not None:
-            # Define colors for each emotion
-            colors = {
-                "angry": "red",
-                "disgust": "green",
-                "fear": "gray",
-                "happy": "yellow",
-                "neutral": "purple",
-                "sad": "blue",
-                "surprise": "orange"
-            }
-            palette = [colors[label] for label in class_probabilities.keys()]
-
-            # Create a figure with 2 subplots: one for the face image, one for the barplot
-            fig, axs = plt.subplots(1, 2, figsize=(10, 5))
-
-            # Display face on the left subplot
-            axs[0].imshow(face)
-            axs[0].axis('off')
-
-            # Create a barplot of the emotion probabilities on the right subplot
-            sns.barplot(ax=axs[1], y=list(class_probabilities.keys()),
-                        x=[prob * 100 for prob in class_probabilities.values()],
-                        palette=palette, orient='h')
-            axs[1].set_xlabel('Probability (%)')
-            axs[1].set_title('Emotion Probabilities')
-            axs[1].set_xlim([0, 100])
-
-            plt.show()
-            plt.close(fig)
-
+        plot_results(face, class_probabilities)
+        
         # Display the frame
         cv2.imshow('Webcam', frame)
 
