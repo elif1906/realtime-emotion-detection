@@ -6,7 +6,8 @@ used dataset for-2023 and ravdess
 **seven emotions** - angry, disguste, fear, happy, neutral, sad and surprised.
 
 * First, clone the repository and enter the folder
- For Windows;
+
+For Windows;
 ```bash
 git clone https://github.com/elif1906/realtime-emotion-detection.git
 cd realtime-emotion-detection
@@ -17,6 +18,7 @@ git clone git@github.com:elif1906/realtime-emotion-detection.git
 cd realtime-emotion-detection
 ```
 * Second, activating the virtual environment
+
 For Windows;
 ```bash
 ai_project\Scripts\activate
