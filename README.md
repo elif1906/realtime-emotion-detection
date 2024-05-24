@@ -1,4 +1,4 @@
-<img src="image.png" alt="alt text" width="1080" height="600">
+<img src="image.png" alt="alt text" width="900" height="600">
 
 
 # Real-Time Emotion Detection (Face - Voice)
@@ -9,7 +9,7 @@ used dataset for-2023 and ravdess
 **seven emotions** - angry, disguste, fear, happy, neutral, sad and surprised.
 
 ## Result output 
-<img src="result.png" alt="alt text" width="1080" height="600">
+<img src="result.png" alt="alt text" width="900" height="600">
 
 * First, clone the repository and enter the folder
 
