@@ -1,4 +1,4 @@
-<img src="image.png" alt="alt text" width="320" height="180">
+<img src="image.png" alt="alt text" width="1080" height="1080">
 
 
 # Real-Time Emotion Detection (Face - Voice)
