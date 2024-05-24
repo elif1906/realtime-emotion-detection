@@ -8,6 +8,9 @@ This project was developed as a web project and allows users to detect their emo
 used dataset for-2023 and ravdess
 **seven emotions** - angry, disguste, fear, happy, neutral, sad and surprised.
 
+## Result output 
+<img src="result.png" alt="alt text" width="1080" height="600">
+
 * First, clone the repository and enter the folder
 
 For Windows;
