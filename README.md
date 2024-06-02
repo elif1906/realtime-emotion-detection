@@ -10,8 +10,13 @@ Id:1904010023
 
 This project aims to develop a system for analyzing real-time facial expressions and voices. The system detects emotions as a result of analyzing facial expressions and sounds. 
 This project was developed as a web project and allows users to detect their emotions by analyzing their facial expressions and voices.
+
 ## Introduction
-used dataset fer-2023 and Emotion English DistilRoBERTa-base
+
+- used dataset fer-2023 and RoBERTa
+- fer-2023 used Vision Transformer (ViT)
+- RoBERTa used Masked language modeling (MLM) 
+
 **seven emotions** - angry, disguste, fear, happy, neutral, sad and surprised.
 
 ## Result output 
