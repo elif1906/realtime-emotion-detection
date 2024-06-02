@@ -14,8 +14,8 @@ This project was developed as a web project and allows users to detect their emo
 ## Introduction
 
 - used dataset fer-2023 and RoBERTa
-- fer-2023 used Vision Transformer (ViT)
-- RoBERTa used Masked language modeling (MLM) 
+- fer-2023 used Vision Transformer (ViT) modelling
+- RoBERTa used Masked language modeling (MLM) modelling
 
 **seven emotions** - angry, disguste, fear, happy, neutral, sad and surprised.
 
@@ -48,7 +48,6 @@ pip install -r  requirements.txt
 python app.py
 ```
 
-## About the Models
 ## About the Models
 
 ### Face Model: ViT (Vision Transformer) Facial Expression Recognition Model
