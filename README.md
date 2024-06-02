@@ -4,7 +4,7 @@ By student : Elif Nur Aslıhan Celepoğlu
 
 Id:1904010023
 
-<img src="image.png" alt="alt text" width="900" height="600">
+![Vision Transformer Model](image.png)
 
 
 
@@ -20,7 +20,7 @@ This project was developed as a web project and allows users to detect their emo
 **seven emotions** - angry, disguste, fear, happy, neutral, sad and surprised.
 
 ## Result output 
-<img src="result.png" alt="alt text" width="900" height="600">
+![Vision Transformer Model](result.png)
 
 ## Installation Instructions
 
