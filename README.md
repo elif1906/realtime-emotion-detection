@@ -49,52 +49,53 @@ python app.py
 ```
 
 ## About the Models
--Face Model: The images were processed as follow:(fer2023)
- -Data Processing:
+## About the Models
+
+### Face Model: ViT (Vision Transformer) Facial Expression Recognition Model
+
+#### Data Processing
 The input images are preprocessed before being fed into the model. The preprocessing steps include:
 
-Resizing: Images are resized to the specified input size.
-Normalization: Pixel values are normalized to a specific range.
-Data Augmentation: Random transformations such as rotations, flips, and zooms are applied to augment the training dataset.
+- **Resizing**: Images are resized to the specified input size.
+- **Normalization**: Pixel values are normalized to a specific range.
+- **Data Augmentation**: Random transformations such as rotations, flips, and zooms are applied to augment the training dataset.
 
- -Modeling:
+#### Modeling
+The model is based on the Vision Transformer (ViT) architecture, which has gained popularity in image processing. Originally successful in language models, the Transformer architecture has been adapted for image processing tasks.
 
-ViT (Vision Transformer) Facial Expression Recognition Model
+##### Model Features
+- ViT utilizes Transformer blocks instead of convolutional neural networks (CNNs) for image processing tasks.
+- The model is trained for facial expression recognition tasks using a dataset of facial photographs representing different emotional expressions.
+- It is capable of recognizing and classifying emotional expressions.
 
-This model is based on the Transformer architecture, which has recently become popular in the field of image processing. Transformers have been successfully used in language models (for text data), but they have also been adapted to the field of image processing. Vision Transformer (ViT) is an example of this transformation.
+![Vision Transformer Model](vit.png)
 
-   -Model Features:
-ViT utilizes Transformer blocks instead of convolutional neural networks (CNNs) for image processing tasks.
-This model has been trained for facial expression recognition tasks.
-The training data consists of facial photographs representing different emotional expressions.
-The model can be used to recognize and classify emotional expressions.
+#### Training Data
+- **Evaluation Metrics**:
+  - Validation set accuracy: 0.7113
+  - Test set accuracy: 0.7116
 
-<img src="vit.png" alt="alt text" width="900" height="600">
+### Voice Model: RoBERTa for Sentiment Analysis
 
+#### Data Processing
+During training, the objective is to create start and end logits for each context of a particular question. The steps include:
 
- -Training Data:
-Evaluation Metrics
-Validation set accuracy: 0.7113
-Test set accuracy: 0.7116
+1. Determining the end index using the length of the answer.
+2. Creating a mask (list) the size of the context, marking positions containing the answer with 1 and others with 0.
+3. Generating offsets for each token in the context and appending tokens whose offset spans contain ones to a list. This list contains tuples holding positions of tokens present in the answer, making the start token the first tuple and the end token the last tuple.
 
+#### Modeling
+Masked Language Modeling (MLM) is used to train the language model. By masking some words or tokens within the text, the model learns to predict these hidden words, improving its understanding of language context for more accurate predictions. The method used here performs sentiment analysis from text, incorporating audio by converting it into text and then analyzing the sentiment.
 
--Voice Model: The waves were processed as follow:(RoBERTa)
+![Masked Language Modeling](mlm.png)
 
-  -Data Processing:
-
-While training, the goal is to first create start and end logits for each context for a particular question. The start index is already given and using the length of the answer, the end index is determined.
-
-We then make a mask(list) which is the size of the context. Those positions which contain the answer are given the value of 1 whereas others are given the value of 0.
-
-The next step is to create offsets for each token in the context and appending those tokens whose offset span contain ones to a list. This list now contains the tuples holding the positions of those tokens present in the answer. Thus, the start token becomes the first tuple in the list whereas the end token becomes the last tuple in the list.
-
-  -Modeling:
- Masked Language Modeling (MLM) is a technique used to train language models. Essentially, by hiding (masking) some words or tokens within the text, it allows the model to predict these hidden words. This method allows the model to better understand the context of the language and thus make more accurate predictions. 
- My aim here is to use a method that performs sentiment analysis from text, and I also added sound. In other words, it converts the audio into text and then performs sentiment analysis.
-<img src="mlm.png" alt="alt text" width="900" height="600">
+#### Training
+- **Learning Rate**: 3e-5 (as specified in the paper)
+- **Loss**: Categorical cross-entropy
+- **Batch Size**: 4 (due to computational limitations; for optimal results, a batch size of 32 or 64 is recommended as specified in the BERT paper)
+- **Epochs**: 3/4 (as specified in the paper)
 
 
-  -Training:
-Learning Rate = 3e-5 (As specified in the paper) Loss - categorical_crossentropy Optimizer - Adam Batch Size - 4(Due to computational limitations. Not: For optimal results, as specified in the bert paper, batch size must be equal to 32 or 64) Epochs = 3/4 (As specified in the paper)
+
 
 
