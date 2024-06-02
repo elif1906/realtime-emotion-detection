@@ -24,6 +24,8 @@ This project was developed as a web project and allows users to detect their emo
 
 ## Installation Instructions
 
+At the same time, sentiment analysis is being carried out on the website. You can only control it by pressing the start and stop buttons.
+
 ### First, clone the repository and enter the folder
 
 For Windows;
