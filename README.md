@@ -1,5 +1,9 @@
 # Real-Time Emotion Detection (Face - Voice)
 
+By student : Elif Nur Aslıhan Celepoğlu
+
+Id:1904010023
+
 <img src="image.png" alt="alt text" width="900" height="600">
 
 
