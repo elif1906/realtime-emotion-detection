@@ -17,7 +17,9 @@ used dataset fer-2023 and Emotion English DistilRoBERTa-base
 ## Result output 
 <img src="result.png" alt="alt text" width="900" height="600">
 
-* First, clone the repository and enter the folder
+## Installation Instructions
+
+### First, clone the repository and enter the folder
 
 For Windows;
 ```bash
@@ -29,7 +31,7 @@ cd realtime-emotion-detection
 git clone git@github.com:elif1906/realtime-emotion-detection.git
 cd realtime-emotion-detection
 ```
-* Second, activating the virtual environment
+### Second, activating the virtual environment
 
 For Windows;
 ```bash
@@ -42,7 +44,7 @@ For Mac;
 source ai_project/bin/activate
 
 ```
-* Third, run app.py file
+### Third, run app.py file
 ```bash
 python app.py
 ```
