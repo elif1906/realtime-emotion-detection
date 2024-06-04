@@ -65,11 +65,11 @@ ai\Scripts\activate
 pip install -r  requirements.txt
 ```
 
-### Third, run app.py file
+### Four, run app.py file
 ```bash
 python app.py
 ```
-### Four, Running on all addresses
+### Five, Running on all addresses
 ```bash
  Running on http://127.0.0.1:5001
  Running on http://10.0.213.38:5001
