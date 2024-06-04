@@ -11,6 +11,10 @@ Id:1904010023
 This project aims to develop a system for analyzing real-time facial expressions and voices. The system detects emotions as a result of analyzing facial expressions and sounds. 
 This project was developed as a web project and allows users to detect their emotions by analyzing their facial expressions and voices.
 
+
+https://github.com/elif1906/realtime-emotion-detection/assets/84383557/519d0516-5280-43a1-b20e-dd185e0515ca
+
+
 ## Introduction
 
 - used dataset fer-2023 and RoBERTa
