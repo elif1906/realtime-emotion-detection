@@ -38,7 +38,22 @@ cd realtime-emotion-detection
 git clone git@github.com:elif1906/realtime-emotion-detection.git
 cd realtime-emotion-detection
 ```
-### Second, requirements.txt
+### Second, creating a virtual environment
+For Mac;
+```bash
+python3 -m venv ai
+```
+```bash
+source ai/bin/activate
+```
+For windows;
+```bash
+python -m venv ai
+```
+```bash
+ai\Scripts\activate
+```
+### Third, requirements.txt
 
 
 ```bash
@@ -48,6 +63,11 @@ pip install -r  requirements.txt
 ### Third, run app.py file
 ```bash
 python app.py
+```
+### Four, Running on all addresses
+```bash
+ Running on http://127.0.0.1:5001
+ Running on http://10.0.213.38:5001
 ```
 
 ## About the Models
